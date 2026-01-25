@@ -1,0 +1,56 @@
+.Dd Jan 25 2026
+.Dt barevcs 1
+.Os
+.Au John Kaul
+.Pp
+.\" Copyright (c) 2026 John Kaul
+.Pp
+.Sh NAME
+.Nm barevcs 
+.Nd Toolkit for managing bare VCS repositories on headless servers
+.Pp
+.Sh DESCRIPTION
+
+.Li barevcs
+is a lighweight toolkit--currently in Proof of Concept stage--for creating, listing, and inspecting bare version-control repositories on remote (headless) servers. It aims for POSIX portability, and secure interaction via ssh(1). 
+.Pp
+
+.Em Current backend: `git` (future backends may include other server-side VCS implementations like: `fossil`, `got`, `svn`, etc.).
+.Pp
+.Sh REMOTE CONFIGURATION EXAMPLE 
+EG: /usr/local/etc/barevcs.conf
+.Pp
+.Bd -literal -offset indent
+ # barevcs configuration
+ BASE_DIR=/var/db/git
+ SERVER_HOSTNAME=git
+ DEFAULT_GROUP=unnamed
+ OWNER=git
+ GROUP_OWNER=wheel
+ README_SANITIZER=/usr/local/bin/md2text
+.Ed
+.Pp
+.Sh LOCAL CONFIGURATION EXAMPLE 
+EG: $HOME/.zshrc
+.Pp
+Interaction with the remote 
+.Li barevcs
+scripts is best done with the use of a local shell rc function like below:
+.Pp
+.Bd -literal -offset indent
+ # gitls --
+ #   Call the 'barevcs-gitls' shell script on the git server to
+ #   list out the bare (remote) repositories.
+ function gitls() {
+         ssh \\
+         -p 22 \\
+         -l git \\
+         -i ~/.ssh/id_ed25519 \\
+         192.168.0.2 \\
+         -t "barevcs-gitls"
+ }
+.Ed
+.Pp
+.Sh SEE ALSO
+
+.Xr ssh(1)
