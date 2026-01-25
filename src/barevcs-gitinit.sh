@@ -198,10 +198,10 @@ print_helpful_info() {
     printf '  git push -u origin main\n\n'
 
     printf 'Create a new local repo and push:\n'
-    printf '  mkdir myproj && cd myproj\n'
+    printf '  mkdir ' "$REPO" ' && cd '"$REPO"'\n'
     printf '  git init\n'
-    printf '  touch README\n'
-    printf '  git add README && git commit -m "initial"\n'
+    printf '  touch readme.md\n'
+    printf '  git add readme.md && git commit -m "initial commit."\n'
     printf '  git remote add origin %s\n' "$CLONE_URL"
     printf '  git push -u origin main\n\n'
 
