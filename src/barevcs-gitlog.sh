@@ -1,8 +1,7 @@
 #!/bin/sh
+# vim: shiftwidth=4
 
 # This script will show the logs for a repo.
-#
-# If no 'group' is included, it will default to 'john'.
 #
 # SYNOPSYS
 #       gitlog [group/]<repository>
@@ -13,7 +12,7 @@ name=$1
 : ${BAREVCS_CONF:='/usr/local/etc/barevcs.conf'}
 . ${BAREVCS_CONF}
 
-: ${DEFAULT_GROUP:='john'}
+: ${DEFAULT_GROUP:='unnamed'}
 : ${BASE_DIR:="/var/db/git"}              # base path containing group/<repo>.git
 
 # --- HELPERS ---
@@ -43,5 +42,3 @@ fi
 
 cd "${BASE_DIR%/}/${group}/${name}.git"            || { echo "Error changing directory"; exit 1; }
 git log --graph --abbrev-commit --decorate --format=format:'%C(blue)%h%C(reset) - %C(cyan)%aD%C(reset) %C(green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''%C(bold white)%s%C(reset) %C(dim white) -  %an%C(reset)%n%n''%C(white)%b%C(reset)' --all
-
-# vim: ft=sh

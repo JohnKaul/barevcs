@@ -1,9 +1,8 @@
 #!/bin/sh
-# gitinit -- create a bare git repository for ssh-invoked setup on gitserver
-#
-# brief:
-#   Create a bare Git repository under /var/db/git/<group>/<repo>.git,
-#   set HEAD to refs/heads/main and write a sanitized description file.
+# vim: shiftwidth=4
+
+# Create a bare Git repository under /var/db/git/<group>/<repo>.git,
+# set HEAD to refs/heads/main and write a sanitized description file.
 #
 # parameters:
 #   $1 - repository path in form "group/repo" or "repo" (group defaults to "john")
@@ -12,12 +11,9 @@
 # return:
 #   exits 0 on success, non-zero on failure
 #
-# see:
-#   git(1), git-init(1)
-#
 # example:
-#   gitinit john/acme "Amazing Program"
-#
+#   barevcs-gitinit john/acme "Amazing Program"
+
 set -eu
 
 # --- CONFIG ---
@@ -35,12 +31,13 @@ err() {
 }
 
 # fallback --
-# brief: return first non-empty argument, else second
+#       return first non-empty argument, else second
 # parameters:
-#   $1 - candidate value
-#   $2 - fallback value
+#       $1 - candidate value
+#       $2 - fallback value
+#
 # return:
-#   prints chosen value to stdout and returns 0
+#       prints chosen value to stdout and returns 0
 fallback() {
     if [ "${1-}" ] && [ "$1" != "-" ]; then
         printf '%s\n' "$1"
@@ -50,11 +47,13 @@ fallback() {
 }
 
 # validate_and_split --
-# brief: validate input path and set GROUP and REPO variables
+#       validate input path and set GROUP and REPO variables
+#
 # parameters:
-#   $1 - repo path (group/repo or repo)
+#       $1 - repo path (group/repo or repo)
+#
 # return:
-#   sets GROUP and REPO on success; returns 0. On error prints message and returns 1.
+#       sets GROUP and REPO on success; returns 0. On error prints message and returns 1.
 validate_and_split() {
     inp=${1:-}
     if [ -z "$inp" ]; then
@@ -91,11 +90,13 @@ validate_and_split() {
 }
 
 # sanitize_description --
-# brief: convert description to single trimmed line; default if empty
+#       convert description to single trimmed line; default if empty
+#
 # parameters:
-#   $1 - raw description (may be empty)
+#       $1 - raw description (may be empty)
+#
 # return:
-#   sets DESC variable and returns 0
+#       sets DESC variable and returns 0
 sanitize_description() {
     raw=${1:-}
     if [ -z "$raw" ]; then
@@ -117,12 +118,14 @@ sanitize_description() {
 }
 
 # create_repo --
-# brief: create directories, initialize bare repo, set ownership/perm,
-#        write description, set HEAD
+#       create directories, initialize bare repo, set ownership/perm,
+#       write description, set HEAD
+#
 # parameters:
-#   uses GROUP, REPO, DESC
+#       uses GROUP, REPO, DESC
+#
 # return:
-#   0 on success, 1 on failure
+#       0 on success, 1 on failure
 create_repo() {
     GROUP_DIR="${BASE_DIR%/}/$GROUP"
     REPO_DIR="$GROUP_DIR/$REPO.git"
@@ -138,8 +141,6 @@ create_repo() {
             err "ERROR: failed to create group directory: $GROUP_DIR"
             return 1
         fi
-        # setgid so future items inherit group; readable/executable
-        # for others as appropriate
         chmod 2775 "$GROUP_DIR" || true
     fi
 
@@ -177,11 +178,13 @@ create_repo() {
 }
 
 # print_helpful_info --
-# brief: print clone/push examples using server hostname setting
+#       print clone/push examples using server hostname setting
+#
 # parameters:
-#   uses GROUP, REPO, DESC
+#       uses GROUP, REPO, DESC
+#
 # return:
-#   0
+#       0
 print_helpful_info() {
     REPO_PATH="$GROUP/$REPO"
     CLONE_URL="$OWNER@$SERVER_HOSTNAME:$REPO_PATH.git"
@@ -212,12 +215,14 @@ print_helpful_info() {
 }
 
 # main --
-# brief: script entrypoint
+#       script entrypoint
+#
 # parameters:
-#   $1 - [group/]repo
-#   $2 - description (optional)
+#       $1 - [group/]repo
+#       $2 - description (optional)
+#
 # return:
-#   exits 0 on success, non-zero on failure
+#       exits 0 on success, non-zero on failure
 main() {
     if [ "${1-}" = "" ]; then
         err "ERROR: missing repository path argument (format: [group/]repo)"

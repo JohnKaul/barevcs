@@ -1,12 +1,11 @@
 #!/bin/sh
-# gitls -- list bare git repositories under /var/db/git
-#
-# brief:
-#   Print table of repositories: NAME, CLONE URL, DESCRIPTION (first 40 chars).
+# vim: shiftwidth=4
+
+# Print table of repositories: NAME, CLONE URL, DESCRIPTION (first 40 chars).
 #
 # usage:
 #   gitls
-#
+
 set -eu
 
 # --- CONFIG ---
@@ -70,6 +69,5 @@ find "$BASE_DIR" -type d -name '*.git' -not -name '*.wiki.git' -print -prune | s
 
     clone_url="git@$SERVER_HOSTNAME:${rel}.git"
 
-    # print safely with quoting
     printf "%-36s %-52s %-30s\n" "$repo_name" "$clone_url" "$desc"
 done

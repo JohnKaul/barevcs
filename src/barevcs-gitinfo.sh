@@ -1,6 +1,6 @@
 #!/bin/sh
+# vim: shiftwidth=4
 
-#
 # Prety repository summary script for calling via ssh(1)
 #
 # Usage:
