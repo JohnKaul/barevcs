@@ -12,10 +12,28 @@
 .Sh DESCRIPTION
 
 .Li barevcs
-is a lighweight toolkit--currently in Proof of Concept stage--for creating, listing, and inspecting bare version-control repositories on remote (headless) servers. It aims for POSIX portability, and secure interaction via ssh(1). 
+is a lightweight toolkit--currently in Proof of Concept stage--for creating, listing, and inspecting bare version-control repositories on remote (headless) servers. It aims for POSIX portability, and secure interaction via ssh(1). 
 .Pp
 
-.Em Current backend: `git` (future backends may include other server-side VCS implementations like: `fossil`, `got`, `svn`, etc.).
+.Em Current back end: `git` (future back ends may include other server-side VCS implementations like: `fossil`, `got`, `svn`, etc.).
+.Pp
+.Sh LIST OF TOOLS
+.Bd -literal -offset indent
+ NAME                 DESCRIPTION
+ --------------------------------------------------------------------
+ barevcs-gitls        List repositories
+ barevcs-gitlog       Show log for a repository
+ barevcs-gitinit      Initilize new bare reposistory
+ barevcs-gitinfo      Show an "information frontpage" for repository
+.Ed
+.Sh SYNOPSIS
+barevcs-gitls
+.Pp
+barevcs-gitlog [group/]repository
+.Pp
+barevcs-gitinit [group/]repository ['description']
+.Pp
+barevcs-gitinfo [group/]repository
 .Pp
 .Sh REMOTE CONFIGURATION EXAMPLE 
 EG: /usr/local/etc/barevcs.conf
@@ -36,7 +54,6 @@ EG: $HOME/.zshrc
 Interaction with the remote 
 .Li barevcs
 scripts is best done with the use of a local shell rc function like below:
-.Pp
 .Bd -literal -offset indent
  # gitls --
  #   Call the 'barevcs-gitls' shell script on the git server to
@@ -49,8 +66,56 @@ scripts is best done with the use of a local shell rc function like below:
          192.168.0.2 \\
          -t "barevcs-gitls"
  }
+.Pp
+ # gitlog --
+ #   Call the 'gitlog' shell script on the git server to
+ #   list a repos logs.
+ # EX:
+ #   gitlog [group/]repo
+ function gitlog() {
+         ssh \\
+         -p 22 \\
+         -l git \\
+         -i ~/.ssh/id_ed25519 \\
+         192.168.0.2 \\
+         -t "barevcs-gitlog $1"
+ }
+.Pp
+ # gitinit --
+ #   Call the 'gitinit' shell script on the git server to
+ #   create a new repository.
+ # EX:
+ #   gitinit [group/]newrepo "Repository description"
+ function gitinit() {
+         ssh \\
+         -p 22 \\
+         -l git \\
+         -i ~/.ssh/id_ed25519 \\
+         192.168.0.2 \\
+         -t "barevcs-gitinit $1 $(printf '%q' "$2")"
+ }
+.Pp
+ # gitinfo --
+ #   Call the 'gitinfo' shell script on the git server to
+ #   list out the remote repositories.
+ # EX:
+ #  gitinfo [group/]repo
+ function gitinfo() {
+         ssh \\
+         -p 22 \\
+         -l git \\
+         -i ~/.ssh/id_ed25519 \\
+         192.168.0.2 \\
+         -t "barevcs-gitinfo $1 | more"
+ }
 .Ed
 .Pp
 .Sh SEE ALSO
 
 .Xr ssh(1)
+.Pp
+.Sh HISTORY
+Created for my personal use.
+.Pp
+.Sh AUTHOR
+John Kaul
