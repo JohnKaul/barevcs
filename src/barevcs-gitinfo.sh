@@ -1,17 +1,10 @@
 #!/bin/sh
-##
-## @file gitinfo
-## @brief Pretty repository summary script for calling via ssh (e.g. gitinfo server/repo)
-##
-## Why/logic:
-##  - Validate input and support <group>/<repo> or just <repo> (defaults group -> user).
-##  - Use aif() to provide fallback values for empty expressions.
-##  - cd into the bare repo directory and print: header summary, tree, log, README.
-##  - Be defensive with IFS and quoting to handle spaces.
-##
-## Usage:
-##  gitinfo <group>/<repo>
-##
+
+#
+# Prety repository summary script for calling via ssh(1)
+#
+# Usage:
+#  gitinfo <group>/<repo>
 
 # --- CONFIG ---
 : ${BAREVCS_CONF:='/usr/local/etc/barevcs.conf'}
