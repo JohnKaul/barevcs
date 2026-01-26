@@ -1,12 +1,13 @@
 #===---------------------------------------------*- makefile -*---===
 #: barevcs
-# This file was automatically generated
 #===--------------------------------------------------------------===
 SRCDIR		=	src
 DOCDIR		=	doc
 INCDIR		:=	src/include
 
 PREFIX		:=	/usr/local/bin
+MANPATH 	:= /usr/local/share/man/man1
+CONFPATH 	:= /usr/local/etc
 
 CC			:=	cc
 CFLAGS		:=	-fno-exceptions -pipe -Wall -W -I $(SRCDIR) -I $(INCDIR)
@@ -44,8 +45,8 @@ install:
 	@$(CP) barevcs-gitinfo $(PREFIX)/barevcs-gitinfo
 	@$(CP) barevcs-gitlog $(PREFIX)/barevcs-gitlog
 	@$(CP) barevcs-gitls $(PREFIX)/barevcs-gitls
-	@$(CP) etc/barevcs.conf /usr/local/etc/barevcs.conf
-	@$(CP) doc/barevcs.1 /usr/local/share/man/man1/barevcs.1
+	@$(CP) etc/barevcs.conf $(CONFPATH)/barevcs.conf
+	@$(CP) doc/barevcs.1 $(MANPATH)/barevcs.1
 
 .PHONY: uninstall
 uninstall:
@@ -54,7 +55,8 @@ uninstall:
 	@$(REMOVE) $(PREFIX)/barevcs-gitinfo
 	@$(REMOVE) $(PREFIX)/barevcs-gitlog
 	@$(REMOVE) $(PREFIX)/barevcs-gitls
-	@$(REMOVE) /usr/local/share/man/man1/barevcs.1
+	@$(REMOVE) $(MANPATH)/barevcs.1
+	@$(REMOVE) $(CONFPATH)/barevcs.conf
 
 .PHONY: all
 all: barevcs
