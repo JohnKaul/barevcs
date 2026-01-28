@@ -18,18 +18,16 @@ name=$1
 # --- HELPERS ---
 # aif --
 #   Aniphoric if.
-#	This function will check an `expr` is not NULL before returned,
-#	otherwise an `iffalse` value is returned.
+#   This function will check an `expr` is not NULL before returned,
+#   otherwise an `iffalse` value is returned.
 # EX
-#		var=$(aif $(some_expr) 7)
-aif() {		#{{{
-        local expr=$1
-        local iffalse=$2
-        if [ -n "$expr" ] && [ "$expr" != "-" ]; then
-                echo "$expr";
-        else
-                echo "$iffalse";
-        fi
+#       var=$(aif $(some_expr) 7)
+aif() {     #{{{
+    if [ "${1-}" ] && [ "$1" != "-" ]; then
+        printf '%s' "$1"
+    else
+        printf '%s' "$2"
+    fi
 }
 #}}}
 
