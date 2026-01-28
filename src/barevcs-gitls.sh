@@ -15,22 +15,6 @@ set -eu
 : ${BASE_DIR:='/var/db/git'}       # base path containing group/<repo>.git
 : ${SERVER_HOSTNAME:='git'}        # hostname used in clone URL (git@git:group/repo.git)
 
-# --- HELPERS ---
-# fallback --
-# brief: return first non-empty argument, else second
-# parameters:
-#   $1 - candidate
-#   $2 - fallback
-# return:
-#   prints chosen value
-fallback() {
-    if [ "${1-}" ] && [ "$1" != "-" ]; then
-        printf '%s' "$1"
-    else
-        printf '%s' "$2"
-    fi
-}
-
 # print header
 #printf "%-36s %-52s %-30s\n" "NAME" "CLONE" "DESCRIPTION"
 printf "%-36s %-52s %-30s\n" "NAME" "CLONE" "DESCRIPTION"
@@ -63,9 +47,6 @@ find "$BASE_DIR" -type d -name '*.git' -not -name '*.wiki.git' -print -prune | s
         fi
         # collapse newlines to space and trim
         desc=$(printf '%s' "$desc" | tr '\n' ' ' | awk '{$1=$1; print}')
-#        desc=$(fallback "$desc" "(no description)")
-#    else
-#        desc='(no description)'
     fi
 
     clone_url="git@$SERVER_HOSTNAME:${rel}.git"
