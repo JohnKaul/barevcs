@@ -30,19 +30,17 @@ err() {
     printf '%s\n' "$1" >&2
 }
 
-# fallback --
-#       return first non-empty argument, else second
-# parameters:
-#       $1 - candidate value
-#       $2 - fallback value
-#
-# return:
-#       prints chosen value to stdout and returns 0
-fallback() {
+# aif --
+#   Aniphoric if.
+#   This function will check an `expr` is not NULL before returned,
+#   otherwise an `iffalse` value is returned.
+# EX
+#       var=$(aif $(some_expr) 7)
+aif() {
     if [ "${1-}" ] && [ "$1" != "-" ]; then
-        printf '%s\n' "$1"
+        printf '%s' "$1"
     else
-        printf '%s\n' "$2"
+        printf '%s' "$2"
     fi
 }
 
@@ -234,7 +232,7 @@ main() {
     fi
 
     # use fallback helper to allow "-" to mean use default if caller chooses
-    DESC_RAW=$(fallback "${2-}" '')
+    DESC_RAW=$(aif "${2-}" '')
     sanitize_description "$DESC_RAW"
 
     if ! create_repo; then
