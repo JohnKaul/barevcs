@@ -32,6 +32,7 @@ fallback() {
 }
 
 # print header
+#printf "%-36s %-52s %-30s\n" "NAME" "CLONE" "DESCRIPTION"
 printf "%-36s %-52s %-30s\n" "NAME" "CLONE" "DESCRIPTION"
 
 # find repositories: directories named *.git (non-recursive under BASE_DIR)
@@ -69,5 +70,5 @@ find "$BASE_DIR" -type d -name '*.git' -not -name '*.wiki.git' -print -prune | s
 
     clone_url="git@$SERVER_HOSTNAME:${rel}.git"
 
-    printf "%-36s %-52s %-30s\n" "$repo_name" "$clone_url" "$desc"
+    printf "%-36s %-52s %-30s\n" "$repo_name" "$desc" "$clone_url"
 done
