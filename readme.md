@@ -20,16 +20,16 @@ secure interaction via ssh(1).
 _Current backend: `git` (Future backends may include other server-side
 VCS implementations like: `fossil`, `got`, `svn`, etc.)._
 
-## Quick start
+## QUICK START
 1. Makefile installs scripts to `/usr/local/bin`
-2. Edit `/etc/barevcs.conf`
+2. Edit `/usr/local/etc/barevcs.conf`
 3. From your laptop, call via SSH:
    - Create:   ssh git@server 'barevcs-gitinit john/acme "Amazing Program"'
    - List:     ssh git@server 'barevcs-gitls'
    - Info:     ssh git@server 'barevcs-gitinfo john/acme'
    - View Log: ssh git@server 'barevcs-gitlog john/acme'
 
-## Remote Configuration example (etc/barevcs.conf)
+## REMOTE CONFIGURATION EXAMPLE (/usr/local/etc/barevcs.conf)
 ```
  # barevcs configuration
  BASE_DIR=/var/db/git
@@ -40,7 +40,7 @@ VCS implementations like: `fossil`, `got`, `svn`, etc.)._
  README_SANITIZER=/usr/local/bin/md2text
 ```
 
-## Local Configuration example ($HOME/.zshrc)
+## LOCAL CONFIGURATION EXAMPLE ($HOME/.zshrc)
 Interaction with the `barevcs` scripts is best done with the use of a
 shell rc function like below:
 
@@ -56,16 +56,58 @@ shell rc function like below:
          192.168.0.2 \
          -t "barevcs-gitls"
  }
+
+ # gitlog --
+ #   Call the 'gitlog' shell script on the git server to
+ #   list a repos logs.
+ # EX:
+ #   gitlog [group/]repo
+ function gitlog() {
+         ssh \
+         -p 22 \
+         -l git \
+         -i ~/.ssh/id_ed25519 \
+         192.168.0.2 \
+         -t "barevcs-gitlog $1"
+ }
+
+ # gitinit --
+ #   Call the 'gitinit' shell script on the git server to
+ #   create a new repository.
+ # EX:
+ #   gitinit [group/]newrepo "Repository description"
+ function gitinit() {
+         ssh \
+         -p 22 \
+         -l git \
+         -i ~/.ssh/id_ed25519 \
+         192.168.0.2 \
+         -t "barevcs-gitinit $1 $(printf '%q' "$2")"
+ }
+
+ # gitinfo --
+ #   Call the 'gitinfo' shell script on the git server to
+ #   list out the remote repositories.
+ # EX:
+ #  gitinfo [group/]repo
+ function gitinfo() {
+         ssh \
+         -p 22 \
+         -l git \
+         -i ~/.ssh/id_ed25519 \
+         192.168.0.2 \
+         -t "barevcs-gitinfo $1 | more"
+ }
 ```
-## Tool Naming conventions
+## TOOL NAMING CONVENTIONS
 - Executables: `barevcs-<backend><command>`, -e.g., `barevcs-gitinit`
-- Config: `/usr/local/etc/barevcs.conf` for system-wide control.
-- Manpages: `/usr/local/share/man/man1`.
+- Config: `/usr/local/etc/barevcs.conf` for system-wide control
+- Manpages: `/usr/local/share/man/man1`
 
 ## WHY
 I created this because I'm typically already in the terminal workig
 with my VCS so didn't feel like I should have to open a browser window
-to interact with my remote repositories as well.
+to interact with my local VCS server.
 
 ## HISTORY
 Created for my personal use.
