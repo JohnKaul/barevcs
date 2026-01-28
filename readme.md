@@ -22,7 +22,7 @@ VCS implementations like: `fossil`, `got`, `svn`, etc.)._
 
 ## Quick start
 1. Makefile installs scripts to `/usr/local/bin`
-2. Edit `/etc/barevcs.conf` (or set `BAREVCS_CONF`) to point another location.
+2. Edit `/etc/barevcs.conf`
 3. From your laptop, call via SSH:
    - Create:   ssh git@server 'barevcs-gitinit john/acme "Amazing Program"'
    - List:     ssh git@server 'barevcs-gitls'
@@ -58,7 +58,7 @@ shell rc function like below:
  }
 ```
 ## Tool Naming conventions
-- Executables: barevcs-<backend><command>, -e.g., `barevcs-gitinit`
+- Executables: `barevcs-<backend><command>`, -e.g., `barevcs-gitinit`
 - Config: `/usr/local/etc/barevcs.conf` for system-wide control.
 - Manpages: `/usr/local/share/man/man1`.
 
