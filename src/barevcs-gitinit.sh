@@ -20,7 +20,7 @@ set -eu
 : ${BAREVCS_CONF:='/usr/local/etc/barevcs.conf'}
 . ${BAREVCS_CONF}
 
-: ${DEFAULT_GROUP:='john'}
+: ${DEFAULT_GROUP:='unnamed'}
 : ${BASE_DIR:='/var/db/git'}
 : ${OWNER:='git'}
 : ${GROUP_OWNER:='wheel'}
@@ -187,29 +187,28 @@ print_helpful_info() {
     REPO_PATH="$GROUP/$REPO"
     CLONE_URL="$OWNER@$SERVER_HOSTNAME:$REPO_PATH.git"
 
-    printf 'NAME\tCLONE\tDESCRIPTION\n'
-    printf '%s\t%s\t%s\n' "$REPO" "$CLONE_URL" "$DESC"
-    printf '\nPush / clone examples:\n\n'
+    printf '\n GROUP: %s\n' "$GROUP"
+    printf ' NAME : %s\n' "$REPO"
+    printf ' CLONE: %s\n' "$CLONE_URL"
+    printf ' DESCR: %s\n\n' "$DESCR"
 
-    printf 'Clone (if repo already has commits):\n'
-    printf '  git clone %s\n\n' "$CLONE_URL"
+    printf 'Push an existing folder\n'
+    printf '    cd existing_folder\n'
+    printf '    git init\n'
+    printf '    git add .\n'
+    printf '    git commit -m "Initial commit."\n'
+    printf '    git remote add origin %s\n' "$CLONE_URL"
+    printf '    git branch -M main\n'
+    printf '    git push -u origin main\n\n'
 
-    printf 'Push an existing local repo (push main):\n'
-    printf '  git remote add origin %s\n' "$CLONE_URL"
-    printf '  git push -u origin main\n\n'
-
-    printf 'Create a new local repo and push:\n'
-    printf '  mkdir ' "$REPO" ' && cd '"$REPO"'\n'
-    printf '  git init\n'
-    printf '  touch readme.md\n'
-    printf '  git add readme.md && git commit -m "initial commit."\n'
-    printf '  git remote add origin %s\n' "$CLONE_URL"
-    printf '  git push -u origin main\n\n'
-
-    printf 'Push an existing repo to this remote:\n'
-    printf '  git remote add origin %s\n' "$CLONE_URL"
-    printf '  git push -u origin --all\n'
-    printf '  git push -u origin --tags\n'
+    printf 'Push an existing Git repository\n'
+    printf '    cd existing_repo\n'
+    printf '    # OPTIONAL : To either "rename" or "remove" an exisitng "origin":\n'
+    printf '    # git remote rename origin old-origin      # keep backup\n'
+    printf '    # git remote remove origin                 # delete existing origin\n'
+    printf '    git remote add origin %s\n' "$CLONE_URL"
+    printf '    git push -u origin --all\n'
+    printf '    git push -u origin --tags\n\n'
 }
 
 # main --
