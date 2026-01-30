@@ -16,7 +16,6 @@ set -eu
 : ${SERVER_HOSTNAME:='git'}        # hostname used in clone URL (git@git:group/repo.git)
 
 # print header
-#printf "%-36s %-52s %-30s\n" "NAME" "CLONE" "DESCRIPTION"
 printf "%-36s %-52s %-30s\n" "NAME" "CLONE" "DESCRIPTION"
 
 # find repositories: directories named *.git (non-recursive under BASE_DIR)
