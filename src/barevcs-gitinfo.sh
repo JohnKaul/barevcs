@@ -10,7 +10,7 @@
 : ${BAREVCS_CONF:='/usr/local/etc/barevcs.conf'}
 . ${BAREVCS_CONF}
 
-: ${DEFAULT_GOUP:="john"}                 # default group owner when group==repo
+: ${DEFAULT_GOUP:="unnamed"}                 # default group owner when group==repo
 : ${BASE_DIR:="/var/db/git"}              # base path containing group/<repo>.git
 : ${README_SANITIZER:="/usr/local/bin/md2txt"}
 
